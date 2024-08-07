@@ -22,15 +22,11 @@ class Controller extends BaseController
     switch($this->settings->captchaProvider->getValue())
     {
         case "googleRecaptcha":
-
             (new GoogleRecaptchaValidator)->validate($_POST['g-recaptcha-response']);
-
             break;         
-
+            
         case "cloudflareTurnstile":
-
             (new CloudflareTurnstileValidator)->validate($_POST['cf-turnstile-response']);
-
             break;    
     }
    }

@@ -64,6 +64,13 @@ class CaptchaHub extends \Piwik\Plugin
                     self::GOOGLE_RECAPTCHA_TAGS
                 );
                 break;
+                
+            case 'cloudflareTurnstile':
+                $this->addCaptchaToTemplateHelper(
+                    'https://challenges.cloudflare.com/turnstile/v0/api.js',
+                    self::CLOUDFLARE_TURNSTILE_TAGS
+                );
+                break;
         }
     }
 
@@ -120,6 +127,10 @@ class CaptchaHub extends \Piwik\Plugin
             case 'googleRecaptcha':
                 $htaccessContent = $this->addGoogleHeaders($htaccessContent);
                 break;
+                
+            case 'cloudflareTurnstile':
+                $htaccessContent = $this->addCloudflareHeaders($htaccessContent);
+                break;
         }
 
         $bytesWritten = file_put_contents($path, $htaccessContent);
@@ -136,6 +147,7 @@ class CaptchaHub extends \Piwik\Plugin
         // Define patterns for different captcha headers
         $patterns = [
             '/#googleRecaptcha Headers.*?#End googleRecaptcha Headers/s',
+            '/#cloudflareTurnstile Headers.*?#End cloudflareTurnstile Headers/s'
         ];
 
         // Remove all matching patterns
@@ -156,6 +168,19 @@ class CaptchaHub extends \Piwik\Plugin
 
         if (trim($content) === '') 
             return trim($content) . PHP_EOL . $googleHeaders;
+
+    }
+
+    private function addCloudflareHeaders($content)
+    {
+        $cloudflareHeaders = <<<EOD
+        #cloudflareTurnstile Headers
+        Header set Content-Security-Policy "default-src 'self'; script-src 'self' https://challenges.cloudflare.com 'unsafe-inline' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; frame-src 'self' https://challenges.cloudflare.com; connect-src 'self' https://challenges.cloudflare.com;"
+        #End cloudflareTurnstile Headers
+        EOD;
+
+        if (trim($content) === '') 
+            return trim($content) . PHP_EOL . $cloudflareHeaders;
 
     }
 
