@@ -9,6 +9,9 @@
 
 namespace Piwik\Plugins\CaptchaHub;
 
+use Piwik\Plugins\Login\FormLogin;
+use Piwik\Plugins\CaptchaHub\Controller as CaptchaHubController;
+
 class CaptchaHub extends \Piwik\Plugin
 {
     private $settings;
@@ -23,6 +26,33 @@ class CaptchaHub extends \Piwik\Plugin
     public function __construct()
     {
         $this->settings = new SystemSettings();
+    }
+
+
+    public function registerEvents()
+    {
+        return [
+            'Request.initAuthenticationObject' => 'addCaptchaFieldToLoginForm',
+        ];
+    }
+
+    public function addCaptchaFieldToLoginForm()
+    {
+        $form = new FormLogin();
+
+        if ($this->settings->captchaStatus->getValue() && $form->validate()) {
+            $captchaHubController = new CaptchaHubController();
+            $captchaHubController->captchaHandle();
+        } 
+        else  if (isset($_POST['settingValues']['CaptchaHub']) && boolval($_POST['settingValues']['CaptchaHub'][0]['value']))
+        {
+            $this->addCaptchaToTemplate();
+        }
+    }
+
+    public function addCaptchaToTemplate()
+    {
+
     }
 
 }
