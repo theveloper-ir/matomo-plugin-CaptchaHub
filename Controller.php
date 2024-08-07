@@ -6,7 +6,7 @@ namespace Piwik\Plugins\CaptchaHub;
 
 use Piwik\Plugin\ControllerAdmin as BaseController;
 use Piwik\Plugins\CaptchaHub\Validation\GoogleRecaptchaValidator;
-
+use Piwik\Plugins\CaptchaHub\Validation\CloudflareTurnstileValidator;
 
 class Controller extends BaseController
 {
@@ -26,6 +26,12 @@ class Controller extends BaseController
             (new GoogleRecaptchaValidator)->validate($_POST['g-recaptcha-response']);
 
             break;         
+
+        case "cloudflareTurnstile":
+
+            (new CloudflareTurnstileValidator)->validate($_POST['cf-turnstile-response']);
+
+            break;    
     }
    }
 }
