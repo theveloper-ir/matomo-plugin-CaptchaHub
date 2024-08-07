@@ -1,6 +1,12 @@
 # CaptchaHub
 
+## Description
+
 **CaptchaHub** is a Matomo plugin to add CAPTCHA to the login page.
+
+### Requirements
+
+[Matomo](https://github.com/matomo-org/matomo) 5.0.0-b1 or higher is required.
 
 ## Installation
 
@@ -14,8 +20,13 @@ In the CaptchaHub settings page, you can select your CAPTCHA provider (Google re
 
 ## Support
 
-For support, please contact us through the [GitHub repository page](GITHub.com/theveloper-ir/matomo-plugin-CaptchaHub).
+For support, please contact us through the [GitHub repository page](https://github.com/theveloper-ir/matomo-plugin-CaptchaHub/).
+And send direct any feedback to [theveloper.ir@gmail.com](mailto:theveloper.ir@gmail.com)
 
 ## License
 
 This plugin is licensed under the GPL V3+ License.
+
+## Contribute
+
+Feel free to create issues and pull requests.
