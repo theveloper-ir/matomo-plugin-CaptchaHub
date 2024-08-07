@@ -252,22 +252,25 @@ class CaptchaHub extends \Piwik\Plugin
 
     public function activate()
     {
-        $provider = $this->settings->captchaProvider->getValue();
-
-        switch ($provider) 
+        if($this->settings->captchaStatus->getValue())
         {
-            case 'googleRecaptcha':
-                $this->addCaptchaToTemplateHelper(
-                    'https://www.google.com/recaptcha/api.js',
-                    self::GOOGLE_RECAPTCHA_TAGS
-                );
-                break;
-            case 'cloudflareTurnstile':
-                $this->addCaptchaToTemplateHelper(
-                    'https://challenges.cloudflare.com/turnstile/v0/api.js',
-                    self::CLOUDFLARE_TURNSTILE_TAGS
-                );
-                break;
+            $provider = $this->settings->captchaProvider->getValue();
+
+            switch ($provider) 
+            {
+                case 'googleRecaptcha':
+                    $this->addCaptchaToTemplateHelper(
+                        'https://www.google.com/recaptcha/api.js',
+                        self::GOOGLE_RECAPTCHA_TAGS
+                    );
+                    break;
+                case 'cloudflareTurnstile':
+                    $this->addCaptchaToTemplateHelper(
+                        'https://challenges.cloudflare.com/turnstile/v0/api.js',
+                        self::CLOUDFLARE_TURNSTILE_TAGS
+                    );
+                    break;
+            }
         }
     }
 
