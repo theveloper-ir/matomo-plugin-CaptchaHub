@@ -11,6 +11,8 @@ namespace Piwik\Plugins\CaptchaHub;
 
 use Piwik\Plugins\Login\FormLogin;
 use Piwik\Plugins\CaptchaHub\Controller as CaptchaHubController;
+use Piwik\Common;
+use Piwik\Db;
 
 class CaptchaHub extends \Piwik\Plugin
 {
@@ -62,6 +64,19 @@ class CaptchaHub extends \Piwik\Plugin
                     self::GOOGLE_RECAPTCHA_TAGS
                 );
                 break;
+        }
+    }
+
+    private function getTemplateContent($templateAddress)
+    {
+        $rootPath = PIWIK_INCLUDE_PATH;
+        $pluginsPath = $rootPath . '/plugins';
+        $path = $pluginsPath . DIRECTORY_SEPARATOR . $templateAddress;
+
+        if (file_exists($path)) {
+            return file_get_contents($path);
+        } else {
+            return '';
         }
     }
 
