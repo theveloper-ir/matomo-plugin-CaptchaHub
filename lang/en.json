@@ -1,2 +1,7 @@
 {
+    "CaptchaHub_CaptchaProviderEmpty": "Captcha Provider cannot be empty if Captcha is enabled.",
+    "CaptchaHub_SiteKeyEmpty": "Site Key cannot be empty if Captcha is enabled.",
+    "CaptchaHub_SecretKeyEmpty": "Secret Key cannot be empty if Captcha is enabled.",
+    "Login_RecaptchaFailed" : "The Captcha is Not Checked",
+    "CaptchaNotChecked" : "The Captcha is Not Checked"
 }
