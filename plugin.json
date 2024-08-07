@@ -1,0 +1,32 @@
+{
+    "name": "CaptchaHub",
+    "version": "1.0.0",
+    "description": "A Matomo plugin that adds captcha verification to the login form. Supports Google Recaptcha and Cloudflare Turnstile.",
+    "theme": false,
+    "authors": [
+        {
+            "name": "Alireza Salhi",
+            "email": "theveloper.ir@gmail.com",
+            "homepage": "https://alireza-salehi.ir"
+        }
+    ],
+    "homepage": "https://github.com/theveloper-ir/matomo-plugin-CaptchaHub/",
+    "license": "GPL v3+",
+    "keywords": [
+        "captcha",
+        "security",
+        "login",
+        "matomo",
+        "plugin",
+        "google Recaptcha",
+        "cloudflare Turnstile"
+    ],
+    "support": {
+        "issues": "https://github.com/theveloper-ir/matomo-plugin-CaptchaHub/issues",
+        "source": "https://github.com/theveloper-ir/matomo-plugin-CaptchaHub/"
+    },
+    "require": {
+        "php": ">=7.2.5",
+        "matomo": ">=5.0.0-stable,<6.0.0-b1"
+    }
+}

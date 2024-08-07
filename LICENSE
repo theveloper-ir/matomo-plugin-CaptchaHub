@@ -1,0 +1,82 @@
+GNU GENERAL PUBLIC LICENSE
+Version 3, 29 June 2007
+
+Copyright (C) 2024 Alireza Salehi
+Everyone is permitted to copy and distribute verbatim copies
+of this license document, but changing it is not allowed.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+Terms and Conditions
+
+0. Definitions.
+
+  This License refers to version 3 of the GNU General Public License.
+  "Copyright" also means copyright-like laws that apply to other kinds of works.
+  "The Program" refers to any copyrightable work licensed under this License. Each licensee is addressed as "you".
+  "License" refers to this document.
+  "Licensor" means the copyright holder or author who is granting the License.
+  "You" means the licensee or recipient of the Program.
+
+1. Source Code.
+
+  The source code for a work means the preferred form of the work for making modifications to it. For an executable work, complete source code means all the source code for all modules it contains, plus any associated interface definition files, plus the scripts used to control compilation and installation of the executable.
+
+2. Basic Permissions.
+
+  You may copy, distribute, and modify the Program under the terms of this License. You must include a copy of this License in every copy of the Program that you distribute or publish. You must keep intact all notices stating that this License applies to the Program and any related information on how to contact the author or Licensor.
+
+3. Copyleft.
+
+  You must keep intact all copyright notices and disclaimers, and you must keep the License in a readable form. You must provide all recipients of the Program with a copy of this License and the source code.
+
+4. Conveys.
+
+  You may convey the Program in object code or executable form under the terms of this License. However, if you convey the Program in executable form, you must provide the corresponding source code or make it available.
+
+5. Network Use.
+
+  You may also convey the Program via a network server, as long as you provide a means for users to obtain the source code.
+
+6. Additional Terms.
+
+  You may add other permissions or restrictions to the Program, as long as they do not contradict the terms of this License.
+
+7. GPL-Compatible Licenses.
+
+  You may combine the Program with other software that is licensed under terms that are compatible with this License, as long as the combined work is licensed under the terms of this License.
+
+8. Termination.
+
+  If you violate the terms of this License, your rights under this License are terminated.
+
+9. Acceptance.
+
+  By copying, modifying, or distributing the Program, you indicate that you accept the terms of this License.
+
+10. Warranty Disclaimer.
+
+  The Program is provided "as is" without any warranty of any kind. The Licensor is not responsible for any claims or damages arising from the use of the Program.
+
+11. Limitation of Liability.
+
+  In no event will the Licensor be liable for any damages arising from the use or inability to use the Program.
+
+12. Interpretation.
+
+  If any part of this License is found to be invalid, the remainder of the License remains in effect.
+
+13. Future Versions.
+
+  The Licensor may publish revised and/or new versions of this License from time to time. The new versions will be similar in spirit to the present version, but may differ in detail.
