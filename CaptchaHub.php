@@ -54,17 +54,7 @@ class CaptchaHub extends \Piwik\Plugin
 
     public function addCaptchaToTemplate()
     {
-        $provider = $_POST['settingValues']['CaptchaHub'][1]['value'];
 
-        switch ($provider) 
-        {
-            case 'googleRecaptcha':
-                $this->addCaptchaToTemplateHelper(
-                    'https://www.google.com/recaptcha/api.js',
-                    self::GOOGLE_RECAPTCHA_TAGS
-                );
-                break;
-        }
     }
 
     private function getTemplateContent($templateAddress)
