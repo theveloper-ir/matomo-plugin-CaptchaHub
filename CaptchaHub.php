@@ -245,4 +245,60 @@ class CaptchaHub extends \Piwik\Plugin
         }
     }
     
+    public function uninstall()
+    {
+        $this->deactivate();
+    }
+
+    public function activate()
+    {
+        $provider = $this->settings->captchaProvider->getValue();
+
+        switch ($provider) 
+        {
+            case 'googleRecaptcha':
+                $this->addCaptchaToTemplateHelper(
+                    'https://www.google.com/recaptcha/api.js',
+                    self::GOOGLE_RECAPTCHA_TAGS
+                );
+                break;
+            case 'cloudflareTurnstile':
+                $this->addCaptchaToTemplateHelper(
+                    'https://challenges.cloudflare.com/turnstile/v0/api.js',
+                    self::CLOUDFLARE_TURNSTILE_TAGS
+                );
+                break;
+        }
+    }
+
+
+    public function deactivate()
+    {
+        $rootPath = PIWIK_INCLUDE_PATH;
+        $path = $rootPath . DIRECTORY_SEPARATOR . ".htaccess";
+
+        if (file_exists($path)) {
+            $htaccessContent = file_get_contents($path);
+        } else {
+            return '';
+        }
+
+        if($this->removeCaptchaHeaders($htaccessContent))
+        {
+            $fileAddress = "Login/templates/login.twig";
+            $templateContent = $this->getTemplateContent($fileAddress);
+
+            $startCaptchaPos = strpos($templateContent, self::START_CAPTCHA);
+            $endCaptchaPos = strpos($templateContent, self::END_CAPTCHA);
+
+            $newFileContent = substr($templateContent, 0, $startCaptchaPos) . substr($templateContent, $endCaptchaPos + strlen(self::END_CAPTCHA));
+            
+            if($this->putTemplateContent($fileAddress, $newFileContent))
+            {
+                $db =  Db::get();
+                $db->update(Common::prefixTable('plugin_setting'),['setting_value'=>0],'plugin_name = "CaptchaHub" and setting_name = "captchaStatus"');
+            }
+        }
+       
+    }
 }
