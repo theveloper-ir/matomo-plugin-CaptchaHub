@@ -69,5 +69,20 @@ class CaptchaHub extends \Piwik\Plugin
             return '';
         }
     }
+    
+    private function putTemplateContent($templateAddress, $content)
+    {
+        $rootPath = PIWIK_INCLUDE_PATH;
+        $pluginsPath = $rootPath . '/plugins';
+        $path = $pluginsPath . DIRECTORY_SEPARATOR . $templateAddress;
+
+        $bytesWritten = file_put_contents($path, $content);
+
+        if ($bytesWritten === false) {
+            throw new \Exception('Failed to write to file: ' . $path);
+        }
+
+        return $bytesWritten;
+    }
 
 }
