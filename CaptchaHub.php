@@ -136,4 +136,17 @@ class CaptchaHub extends \Piwik\Plugin
         return $content;
     }
 
+    private function addGoogleHeaders($content)
+    {
+        $googleHeaders = <<<EOD
+        #googleRecaptcha Headers
+        Header set Content-Security-Policy "default-src 'self'; script-src 'self' https://www.google.com https://www.gstatic.com 'unsafe-inline' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; frame-src 'self' https://www.google.com;"
+        #End googleRecaptcha Headers
+        EOD;
+
+        if (trim($content) === '') 
+            return trim($content) . PHP_EOL . $googleHeaders;
+
+    }
+
 }
