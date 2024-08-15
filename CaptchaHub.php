@@ -75,70 +75,38 @@ class CaptchaHub extends Plugin
         }
     }
 
-    private function getTemplateContent($templateAddress)
+    private function getTemplateContent($filePath)
     {
-        $rootPath = PIWIK_INCLUDE_PATH;
-        $pluginsPath = $rootPath . '/plugins';
-        $path = $pluginsPath . DIRECTORY_SEPARATOR . $templateAddress;
-
-        if (file_exists($path)) {
-            return file_get_contents($path);
-        } else {
-            return '';
-        }
+        if (file_exists($filePath)) 
+            return file_get_contents($filePath);
+        else 
+            throw new \Exception("File {$filePath} Not Found ");
     }
     
-    private function putTemplateContent($templateAddress, $content)
+    private function putTemplateContent($filePath, $content)
     {
-        $rootPath = PIWIK_INCLUDE_PATH;
-        $pluginsPath = $rootPath . '/plugins';
-        $path = $pluginsPath . DIRECTORY_SEPARATOR . $templateAddress;
+        if (!file_exists($filePath)) 
+            throw new \Exception("File {$filePath} Not Found ");
 
-        $bytesWritten = file_put_contents($path, $content);
+        $bytesWritten = file_put_contents($filePath, $content);
 
-        if ($bytesWritten === false) {
-            throw new \Exception('Failed to write to file: ' . $path);
-        }
+        if ($bytesWritten === false)
+            throw new \Exception('Failed to write on file: ' . $filePath);
 
         return $bytesWritten;
     }
     
-    private function putHtaccessContent($captchaProvider)
+    private function putHtaccessContent($htaccessContent)
     {
-        $rootPath = PIWIK_INCLUDE_PATH;
-        $path = $rootPath . DIRECTORY_SEPARATOR . ".htaccess";
+        $filePath = PIWIK_INCLUDE_PATH . DIRECTORY_SEPARATOR . ".htaccess";
 
-        if (!file_exists($path)) {
-            file_put_contents($path, '');
-        }
+        if (!file_exists($filePath)) 
+            throw new \Exception("File {$filePath} Not Found ");
 
-        $htaccessContent = file_get_contents($path);
+        $bytesWritten = file_put_contents($filePath, $htaccessContent);
 
-        //return if captcha Provider equal htaccess Content
-        $pattern = "/#{$captchaProvider} Headers.*?#End {$captchaProvider} Headers/s";
-        if(preg_match($pattern, $htaccessContent))
-            return;
-
-        // Remove all previous captcha headers
-        $htaccessContent = $this->removeCaptchaHeaders($htaccessContent);
-
-        // Add new captcha headers based on provider
-        switch ($captchaProvider) 
-        {
-            case 'googleRecaptcha':
-                $htaccessContent = $this->addGoogleHeaders($htaccessContent);
-                break;
-                
-            case 'cloudflareTurnstile':
-                $htaccessContent = $this->addCloudflareHeaders($htaccessContent);
-                break;
-        }
-
-        $bytesWritten = file_put_contents($path, $htaccessContent);
-
-        if ($bytesWritten === false) {
-            throw new \Exception('Failed to write to file: ' . $path);
-        }
+        if ($bytesWritten === false) 
+            throw new \Exception('Failed to write to file: ' . $filePath);
 
         return $bytesWritten;
     }
@@ -167,9 +135,7 @@ class CaptchaHub extends Plugin
         #End googleRecaptcha Headers
         EOD;
 
-        if (trim($content) === '') 
-            return trim($content) . PHP_EOL . $googleHeaders;
-
+        return trim($content) . PHP_EOL . $googleHeaders;
     }
 
     private function addCloudflareHeaders($content)
@@ -179,10 +145,7 @@ class CaptchaHub extends Plugin
         Header set Content-Security-Policy "default-src 'self'; script-src 'self' https://challenges.cloudflare.com 'unsafe-inline' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; frame-src 'self' https://challenges.cloudflare.com; connect-src 'self' https://challenges.cloudflare.com;"
         #End cloudflareTurnstile Headers
         EOD;
-
-        if (trim($content) === '') 
             return trim($content) . PHP_EOL . $cloudflareHeaders;
-
     }
 
     private function addCaptchaToTemplateHelper($scriptSrc, $captchaClass)
