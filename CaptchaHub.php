@@ -182,8 +182,10 @@ class CaptchaHub extends Plugin
             $search = '<label for="login_form_password"><i class="icon-locked icon"></i> {{ \'General_Password\'|translate }}</label>
                         </div>
                     </div>';
+            $pattern = '/<label\s+for="login_form_password"><i\s+class="icon-locked\s+icon"><\/i>\s*{{\s*\'General_Password\'\|translate\s*}}<\/label>/';
 
-            $position = strpos($templateContent, $search);
+            if (preg_match($pattern, $templateContent, $matches, PREG_OFFSET_CAPTURE)) 
+                $position = $matches[0][1];
 
             if ($position !== false) 
             {
