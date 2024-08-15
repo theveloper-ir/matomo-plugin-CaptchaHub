@@ -42,15 +42,21 @@ class CaptchaHub extends Plugin
     public function addCaptchaFieldToLoginForm()
     {
         $form = new FormLogin();
-
-        if ($this->settings->captchaStatus->getValue() && $form->validate()) {
+        
+        if ($this->settings->captchaStatus->getValue() && $form->validate()) 
+        {
             $captchaHubController = new CaptchaHubController();
             $captchaHubController->captchaHandle();
         } 
-        else  if (isset($_POST['settingValues']['CaptchaHub']) && boolval($_POST['settingValues']['CaptchaHub'][0]['value']))
+        else if(isset($_POST['settingValues']['CaptchaHub']) && $_POST['settingValues']['CaptchaHub'][0]['value'] == 0)
         {
-            $this->addCaptchaToTemplate();
+            $htaccessContent = $this->getHtaccessContent();
+    
+            if($this->removeCaptchaHeaders($htaccessContent) !== false)
+                $this->removeTextFromFile(self::LOGIN_TEMPLATE_PATH, self::START_CAPTCHA, self::END_CAPTCHA);
         }
+        else if (isset($_POST['settingValues']['CaptchaHub']) && $_POST['settingValues']['CaptchaHub'][0]['value'] == 1)
+            $this->addCaptchaToTemplate();
     }
 
     public function addCaptchaToTemplate()
