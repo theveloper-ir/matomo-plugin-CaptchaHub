@@ -267,5 +267,28 @@ class CaptchaHub extends Plugin
             }
         }
        
+    
+    private function removeTextFromFile($filePath, $startString, $endString) 
+    {
+        if (!file_exists($filePath)) 
+            throw new \Exception("File {$filePath} Not Found ");
+
+        $content = file_get_contents($filePath);
+
+        if ($content === false) 
+            throw new \Exception('Failed to Open File : ' . $filePath);
+
+        //Change Pattern For Get All Spaces And Convert To PHP_EOL
+        $pattern = '/(\r?\n)*' . preg_quote($startString, '/') . '.*?' . preg_quote($endString, '/') . '(\r?\n)*/s';
+
+
+        $newContent = preg_replace($pattern, PHP_EOL, $content);
+
+        $result = file_put_contents($filePath, $newContent);
+        
+        if ($result === false) 
+            throw new \Exception('Failed to write on file: ' . $filePath);  
+
+        echo "Text Deleted Successfully";
+        return true;
     }
-}
