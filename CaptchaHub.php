@@ -24,7 +24,7 @@ class CaptchaHub extends Plugin
     const END_CAPTCHA = '<!-- End Captcha -->';
     const GOOGLE_RECAPTCHA_TAGS = 'class="g-recaptcha"';
     const CLOUDFLARE_TURNSTILE_TAGS = 'class="cf-turnstile"';
-
+    const LOGIN_TEMPLATE_PATH = PIWIK_INCLUDE_PATH . DIRECTORY_SEPARATOR . "plugins" . DIRECTORY_SEPARATOR ."Login/templates/login.twig";
 
     public function __construct()
     {
