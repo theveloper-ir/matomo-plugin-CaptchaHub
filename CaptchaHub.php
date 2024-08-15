@@ -305,3 +305,30 @@ class CaptchaHub extends Plugin
             return '';
         }
     }
+
+    private function setHtaccessProvider($captchaProvider)
+    {
+        $htaccessContent = $this->getHtaccessContent();
+
+        //return if captcha Provider equal htaccess Content
+        $pattern = "/#{$captchaProvider} Headers.*?#End {$captchaProvider} Headers/s";
+        if(preg_match($pattern, $htaccessContent))
+            return;
+
+        // Remove all previous captcha headers
+        $htaccessContent = $this->removeCaptchaHeaders($htaccessContent);
+
+        // Add new captcha headers based on provider
+        switch ($captchaProvider) 
+        {
+            case 'googleRecaptcha':
+                $htaccessContent = $this->addGoogleHeaders($htaccessContent);
+                break;
+                
+            case 'cloudflareTurnstile':
+                $htaccessContent = $this->addCloudflareHeaders($htaccessContent);
+                break;
+        }
+
+        $this->putHtaccessContent($htaccessContent);
+    }
