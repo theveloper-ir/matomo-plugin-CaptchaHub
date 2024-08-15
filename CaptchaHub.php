@@ -292,3 +292,16 @@ class CaptchaHub extends Plugin
         echo "Text Deleted Successfully";
         return true;
     }
+
+    private function getHtaccessContent()
+    {
+        $filePath = PIWIK_INCLUDE_PATH . DIRECTORY_SEPARATOR . ".htaccess";
+
+        if (file_exists($filePath)) 
+            return file_get_contents($filePath);
+        else 
+        {
+            file_put_contents($filePath,'');
+            return '';
+        }
+    }
