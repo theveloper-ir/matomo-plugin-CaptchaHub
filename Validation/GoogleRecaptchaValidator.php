@@ -4,6 +4,7 @@ namespace Piwik\Plugins\CaptchaHub\Validation;
 
 
 use Piwik\Plugins\CaptchaHub\SystemSettings;
+use Piwik\Piwik;
 
 class GoogleRecaptchaValidator
 {

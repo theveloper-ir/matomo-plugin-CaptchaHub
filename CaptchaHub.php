@@ -13,8 +13,9 @@ use Piwik\Plugins\Login\FormLogin;
 use Piwik\Plugins\CaptchaHub\Controller as CaptchaHubController;
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Plugin;
 
-class CaptchaHub extends \Piwik\Plugin
+class CaptchaHub extends Plugin
 {
     private $settings;
     protected $pluginName = 'CaptchaHub';
