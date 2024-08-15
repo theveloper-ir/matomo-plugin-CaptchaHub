@@ -31,7 +31,6 @@ class CaptchaHub extends Plugin
         $this->settings = new SystemSettings();
     }
 
-
     public function registerEvents()
     {
         return [
@@ -164,11 +163,9 @@ class CaptchaHub extends Plugin
 
         $siteKey = isset($_POST['settingValues']['CaptchaHub'][2]['value'])?$_POST['settingValues']['CaptchaHub'][2]['value']:$this->settings->siteKey->getValue();
         $templateContent = $this->getTemplateContent(self::LOGIN_TEMPLATE_PATH);
-
         $containsStartCaptcha = strpos($templateContent, self::START_CAPTCHA) !== false;
         $containsEndCaptcha = strpos($templateContent, self::END_CAPTCHA) !== false;
         $containsCaptchaTag = strpos($templateContent, $captchaClass) !== false;
-
         $captchaHtml = PHP_EOL.'
         ' . self::START_CAPTCHA . '
         <div class="row">
@@ -180,8 +177,8 @@ class CaptchaHub extends Plugin
         ' . self::END_CAPTCHA . PHP_EOL;
 
 
-        if (!$containsStartCaptcha && !$containsEndCaptcha) {
-
+        if (!$containsStartCaptcha && !$containsEndCaptcha) 
+        {
             $search = '<label for="login_form_password"><i class="icon-locked icon"></i> {{ \'General_Password\'|translate }}</label>
                         </div>
                     </div>';
@@ -190,9 +187,7 @@ class CaptchaHub extends Plugin
 
             if ($position !== false) 
             {
-                
                 $position += strlen($search);
-
                 $newFileContent = substr($templateContent, 0, $position) . $captchaHtml . substr($templateContent, $position);
 
                 $this->putTemplateContent(self::LOGIN_TEMPLATE_PATH, $newFileContent);
@@ -202,15 +197,12 @@ class CaptchaHub extends Plugin
         } 
         else if (!$containsCaptchaTag || $siteKey != $this->settings->siteKey->getValue()) 
         {
-
             $startCaptchaPos = strpos($templateContent, self::START_CAPTCHA);
             $endCaptchaPos = strpos($templateContent, self::END_CAPTCHA);
-
             $newFileContent = substr($templateContent, 0, $startCaptchaPos) . $captchaHtml . substr($templateContent, $endCaptchaPos + strlen(self::END_CAPTCHA));
             
             $this->putTemplateContent(self::LOGIN_TEMPLATE_PATH, $newFileContent);
             $this->setHtaccessProvider($_POST['settingValues']['CaptchaHub'][1]['value']);
-
         }
     }
     
