@@ -263,10 +263,10 @@ class CaptchaHub extends Plugin
 
         //Change Pattern For Get All Spaces And Convert To PHP_EOL
         $pattern = '/(\r?\n)*' . preg_quote($startString, '/') . '.*?' . preg_quote($endString, '/') . '(\r?\n)*/s';
-
-
-        $newContent = preg_replace($pattern, PHP_EOL, $content);
-
+        //Remove matched pattern and trim extra newlines
+        $newContent = preg_replace($pattern, '', $content);
+        //Remove additional blank lines left from the replacement
+        $newContent = preg_replace('/(\r?\n){2,}/', PHP_EOL, $newContent);
         $result = file_put_contents($filePath, $newContent);
         
         if ($result === false) 
