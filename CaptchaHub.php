@@ -126,11 +126,11 @@ class CaptchaHub extends Plugin
         ];
 
         // Remove all matching patterns
-        foreach ($patterns as $pattern) {
-            $content = preg_replace($pattern, '', $content);
-        }
+        foreach ($patterns as $pattern) 
+            $content = trim(preg_replace($pattern, '', $content));
 
-        return $content;
+        if($this->putHtaccessContent($content) !== false)
+            return $content;
     }
 
     private function addGoogleHeaders($content)
@@ -163,8 +163,7 @@ class CaptchaHub extends Plugin
         }
 
         $siteKey = isset($_POST['settingValues']['CaptchaHub'][2]['value'])?$_POST['settingValues']['CaptchaHub'][2]['value']:$this->settings->siteKey->getValue();
-        $fileAddress = "Login/templates/login.twig";
-        $templateContent = $this->getTemplateContent($fileAddress);
+        $templateContent = $this->getTemplateContent(self::LOGIN_TEMPLATE_PATH);
 
         $containsStartCaptcha = strpos($templateContent, self::START_CAPTCHA) !== false;
         $containsEndCaptcha = strpos($templateContent, self::END_CAPTCHA) !== false;
@@ -196,8 +195,8 @@ class CaptchaHub extends Plugin
 
                 $newFileContent = substr($templateContent, 0, $position) . $captchaHtml . substr($templateContent, $position);
 
-                $this->putTemplateContent($fileAddress, $newFileContent);
-                $this->putHtaccessContent(isset($_POST['settingValues']['CaptchaHub'][1]['value'])?$_POST['settingValues']['CaptchaHub'][1]['value']:$this->settings->captchaProvider->getValue());
+                $this->putTemplateContent(self::LOGIN_TEMPLATE_PATH, $newFileContent);
+                $this->setHtaccessProvider(isset($_POST['settingValues']['CaptchaHub'][1]['value'])?$_POST['settingValues']['CaptchaHub'][1]['value']:$this->settings->captchaProvider->getValue());
 
             }
         } 
@@ -209,8 +208,8 @@ class CaptchaHub extends Plugin
 
             $newFileContent = substr($templateContent, 0, $startCaptchaPos) . $captchaHtml . substr($templateContent, $endCaptchaPos + strlen(self::END_CAPTCHA));
             
-            $this->putTemplateContent($fileAddress, $newFileContent);
-            $this->putHtaccessContent($_POST['settingValues']['CaptchaHub'][1]['value']);
+            $this->putTemplateContent(self::LOGIN_TEMPLATE_PATH, $newFileContent);
+            $this->setHtaccessProvider($_POST['settingValues']['CaptchaHub'][1]['value']);
 
         }
     }
@@ -244,35 +243,19 @@ class CaptchaHub extends Plugin
         }
     }
 
-
     public function deactivate()
     {
-        $rootPath = PIWIK_INCLUDE_PATH;
-        $path = $rootPath . DIRECTORY_SEPARATOR . ".htaccess";
-
-        if (file_exists($path)) {
-            $htaccessContent = file_get_contents($path);
-        } else {
-            return '';
-        }
-
-        if($this->removeCaptchaHeaders($htaccessContent))
+        $htaccessContent = $this->getHtaccessContent();
+        
+        if($this->removeCaptchaHeaders($htaccessContent) !== false)
         {
-            $fileAddress = "Login/templates/login.twig";
-            $templateContent = $this->getTemplateContent($fileAddress);
-
-            $startCaptchaPos = strpos($templateContent, self::START_CAPTCHA);
-            $endCaptchaPos = strpos($templateContent, self::END_CAPTCHA);
-
-            $newFileContent = substr($templateContent, 0, $startCaptchaPos) . substr($templateContent, $endCaptchaPos + strlen(self::END_CAPTCHA));
-            
-            if($this->putTemplateContent($fileAddress, $newFileContent))
+            if($this->removeTextFromFile(self::LOGIN_TEMPLATE_PATH, self::START_CAPTCHA, self::END_CAPTCHA))
             {
                 $db =  Db::get();
                 $db->update(Common::prefixTable('plugin_setting'),['setting_value'=>0],'plugin_name = "CaptchaHub" and setting_name = "captchaStatus"');
             }
         }
-       
+    }
     
     private function removeTextFromFile($filePath, $startString, $endString) 
     {
@@ -338,3 +321,4 @@ class CaptchaHub extends Plugin
 
         $this->putHtaccessContent($htaccessContent);
     }
+}
