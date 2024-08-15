@@ -272,7 +272,6 @@ class CaptchaHub extends Plugin
         if ($result === false) 
             throw new \Exception('Failed to write on file: ' . $filePath);  
 
-        echo "Text Deleted Successfully";
         return true;
     }
 
